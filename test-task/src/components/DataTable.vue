@@ -8,7 +8,8 @@
     >
       <caption>Лист {{ i+1 }}</caption>
       <tr>
-        <th v-for="(header,j) in columnHeader[i]"
+        <th
+          v-for="(header,j) in columnHeader[i]"
           :key="j"
         >
           {{ header }}
@@ -57,10 +58,7 @@ export default {
       }
       return ar
     }
-  }),
-  mounted () {
-    console.log(this.columnContent)
-  }
+  })
 }
 </script>
 

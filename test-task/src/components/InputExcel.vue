@@ -6,7 +6,7 @@
     <form ref="fileform">
       <label
         class="input"
-        for="file"
+        :for="id"
       ><span>{{ text }}</span></label>
       <input
         type="file"
@@ -89,9 +89,9 @@ export default {
     handleFileUpload () {
       this.file = this.$refs.file.files[0]
       this.fileValidations()
-      this.readXlsFile()
-      // console.log(XLSX.utils.book_new())
-      // this.make_cols(this.file)
+      if (this.file && this.valid) {
+        this.readXlsFile()
+      }
     },
     async readXlsFile () {
       const reader = new FileReader()
@@ -112,7 +112,7 @@ export default {
       this.resultArray = ar
       await this.getData(ar)
       if (this.getInfo.status === 200) {
-        this.$emit('sendArray', this.resultArray) // Делаю через emit потому что так написано в ТЗ, хотя оптимальный вариант брать масив из state во Vuex
+        this.$emit('sendArray', this.resultArray)
       }
     }
   },
@@ -129,7 +129,9 @@ export default {
       this.$refs.fileform.addEventListener('drop', function (e) {
         this.file = e.dataTransfer.files[0]
         this.fileValidations()
-        this.readXlsFile()
+        if (this.file && this.valid) {
+          this.readXlsFile()
+        }
       }.bind(this))
     }
   }
