@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>TEST</h1>
     <table
       border="1"
       v-for="(sheet,i) in columnContent"

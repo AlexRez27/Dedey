@@ -56,33 +56,29 @@ export default {
   methods: {
     ...mapActions(['getData']),
     ...mapMutations(['showAr']),
-    determineDragAndDropCapable () {
-      var div = document.createElement('div')
-      return (('draggable' in div) ||
-          ('ondragstart' in div && 'ondrop' in div)) &&
-          'FormData' in window &&
-          'FileReader' in window
-    },
     fileValidations () {
-      if (this.file.size > this.size * 1000000) {
-        this.text = `Допустимый размер файла ${this.size} мб, выберите другой файл`
-        this.valid = false
-      } else {
-        this.text = this.placeholder
-        this.valid = true
-      }
+      let validSize = false
+      let validExt = false
       if (!this.extensions.includes(this.file.type)) {
         let fileType = Object.keys(mime).find(key => mime[key] === this.file.type)
         if (!fileType) {
           fileType = ''
         }
         this.text = `Недопустимый тип файла ${fileType}, выберите другой файл`
-        this.valid = false
+        validExt = false
       } else {
         this.text = this.placeholder
-        this.valid = true
+        validExt = true
       }
-      if (this.valid) {
+      if (validExt && this.file.size > this.size * 1000000) {
+        this.text = `Допустимый размер файла ${this.size} мб, выберите другой файл`
+        validSize = false
+      } else if (validExt) {
+        this.text = this.placeholder
+        validSize = true
+      }
+      if (validSize && validExt) {
+        this.valid = true
         this.text = `Файл - ${this.file.name}`
       }
     },
@@ -110,6 +106,7 @@ export default {
       }
       reader.readAsArrayBuffer(this.file)
       this.resultArray = ar
+      this.$parent.loading = true
       await this.getData(ar)
       if (this.getInfo.status === 200) {
         this.$emit('sendArray', this.resultArray)
@@ -117,23 +114,21 @@ export default {
     }
   },
   mounted () {
-    this.dragAndDropCapable = this.determineDragAndDropCapable()
     this.text = this.placeholder
-    if (this.dragAndDropCapable) {
-      ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach(function (evt) {
-        this.$refs.fileform.addEventListener(evt, function (e) {
-          e.preventDefault()
-          e.stopPropagation()
-        }, false)
-      }.bind(this))
-      this.$refs.fileform.addEventListener('drop', function (e) {
-        this.file = e.dataTransfer.files[0]
-        this.fileValidations()
-        if (this.file && this.valid) {
-          this.readXlsFile()
-        }
-      }.bind(this))
-    }
+    const events = ['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop']
+    events.forEach(function (evt) {
+      this.$refs.fileform.addEventListener(evt, function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+      }, false)
+    }.bind(this))
+    this.$refs.fileform.addEventListener('drop', function (e) {
+      this.file = e.dataTransfer.files[0]
+      this.fileValidations()
+      if (this.file && this.valid) {
+        this.readXlsFile()
+      }
+    }.bind(this))
   }
 }
 </script>
