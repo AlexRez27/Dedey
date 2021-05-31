@@ -69,8 +69,8 @@ export default {
   data () {
     return {
       range: {
-        start: new Date(2020, 1, 6),
-        end: new Date(2020, 1, 22)
+        start: new Date(2021, 1, 6),
+        end: new Date(2021, 1, 22)
       },
       masks: {
         input: 'DD MMMM'

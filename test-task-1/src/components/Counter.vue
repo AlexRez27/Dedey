@@ -12,8 +12,14 @@
         v-model="number"
       >
       <div class="counter__buttons">
-        <div @click="increment" class="counter__button counter__button--increment " />
-        <div @click="decrement" class="counter__button counter__button--decrement " />
+        <div
+          @click="increment"
+          class="counter__button counter__button--increment "
+        />
+        <div
+          @click="decrement"
+          class="counter__button counter__button--decrement "
+        />
       </div>
     </div>
   </div>
@@ -38,7 +44,9 @@ export default {
       this.number += 1
     },
     decrement () {
-      this.number -= 1
+      if (this.number) {
+        this.number -= 1
+      }
     }
   }
 }
@@ -75,6 +83,8 @@ export default {
       position: relative;
       text-align: center;
       outline: none;
+      font-size: 16px;
+      color: $mainColor;
       @include tablet{
         width: 42px;
         height: 42px;

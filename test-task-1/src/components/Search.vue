@@ -48,7 +48,7 @@ export default {
       text-transform: uppercase;
       font-weight: bold;
       cursor: pointer;
-      &:hover{
+      &:hover, &:focus{
         background-color: darken($secondColor, 10%);
       }
       &:active{
