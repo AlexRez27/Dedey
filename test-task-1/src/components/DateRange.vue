@@ -9,6 +9,10 @@
         mode="date"
         :masks="masks"
         is-range
+        :popover="{
+          visibility: 'focus'
+        }"
+        :locale="locale"
       >
         <template v-slot="{ inputValue, inputEvents, isDragging }">
           <div class="date__cont ">
@@ -28,6 +32,7 @@
                   :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
                   :value="inputValue.start"
                   id="dateFrom"
+                  tabindex="-1"
                 >
               </div>
             </div>
@@ -39,16 +44,17 @@
               <div class="date__to">
                 <input
                   class="date__input"
-                  @change="getData(inputValue.en)"
                   :class="isDragging ? 'text-gray-600' : 'text-gray-900'"
                   :value="inputValue.end"
-
+                  tabindex="-1"
                   id="dateTo"
                 >
-                <i
+                <button
                   v-on="inputEvents.end"
-                  class="fas fa-chevron-down arrow"
-                />
+                  class="date__dateTo"
+                >
+                  <i class="fas fa-chevron-down" />
+                </button>
               </div>
             </div>
           </div>
@@ -59,7 +65,6 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
@@ -69,27 +74,25 @@ export default {
       },
       masks: {
         input: 'DD MMMM'
-      }
-    }
-  },
-  methods: {
-    getData (v) {
-      console.log(v)
+      },
+      inputValues: {},
+      locale: 'ru-RU',
+      'popover.visibility': 'focus'
     }
   }
 }
 </script>
 
-<style>
-@import '.././assets/scss/fonts.css';
-</style>
-
 <style lang="scss">
-@import '.././assets/scss/var';
-// @import '../assets/scss/index.scss';
+@import '../assets/scss/index.scss';
   .date{
     margin-left: 26px;
     max-width: 378px;
+    @include tablet {
+      margin-left: 0;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
     &__wrapper{
       height: 100%;
       &>span{
@@ -115,7 +118,7 @@ export default {
             position: absolute;
             right: 0;
             top: 50%;
-            background-color: #9a9a9a;
+            background-color: $mainColor;
           }
         }
         &--to{
@@ -124,15 +127,23 @@ export default {
     }
     &__label{
       text-align: left;
-      // font-family: $secondFontFamily;
+      font-family: $secondFontFamily;
       font-size: 12px;
       color: $fontColor;
+      font-weight: bold;
     }
     &__icon{
       padding-right: 10px;
     }
     &__to{
       display: flex;
+      padding-right: 26px;
+      border-right: 2px solid $borderColor;
+      padding-top: 10px;
+      @include tablet{
+        border-right: none;
+        padding-right: 0;
+      }
     }
     &__input{
       border: none;
@@ -142,11 +153,25 @@ export default {
     }
     &__dateFrom{
       display: flex;
+      padding-top: 10px;
     }
     .arrow{
       cursor: pointer;
       border-right: 2px solid #e9e9e9;
       padding-right: 26px;
     }
+    &__dateTo{
+      outline: none;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      &:hover{
+        color: $secondColor;
+      }
+      &:focus{
+        color: darken($secondColor, 10%);
+      }
+    }
   }
+
 </style>

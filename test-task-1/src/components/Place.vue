@@ -23,25 +23,27 @@
 </template>
 
 <style lang="scss">
-@import '.././assets/scss/fonts';
-@import '.././assets/scss/var';
-// @import '../assets/scss/index.scss';
+@import '../assets/scss/index.scss';
   .place{
-    // padding-right: 26px;
-    max-width: 230px;
+    width: 230px;
     display: flex;
     flex-direction: column;
+    justify-content: space-around;
     &__label{
       font-family: 'myriad Pro';
       font-size: 12px;
       color: $fontColor;
       text-align: left;
+      font-weight: bold;
     }
     &__cont{
       padding-top: 10px;
-      border-right: 2px solid #e9e9e9;
+      border-right: 2px solid $borderColor;
       display: flex;
       width: 100%;
+      @include tablet{
+        border-right: none;
+      }
     }
     &__img{
       padding-top: 1px;
