@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <div class="container">
-        <Place />
-        <DateRange />
-        <div class="counters">
-          <Counter
-            v-for="(label,i) in labels"
-            :key="i"
-            :label="label"
-          />
-          <ButtonPlus />
+      <Place />
+      <DateRange />
+      <div class="counters">
+        <Counter
+          v-for="(label,i) in labels"
+          :key="i"
+          :label="label"
+        />
+        <ButtonPlus />
       </div>
-        <Search />
+      <Search />
     </div>
   </div>
 </template>
@@ -42,6 +42,14 @@ export default {
 
 <style lang="scss" scoped>
 @import './assets/scss/index.scss';
+@font-face {
+  font-family: "ProximaNova";
+  src: url(./assets/fonts/ProximaNova.woff2) format("woff2");
+}
+@font-face {
+  font-family: "AvenirNextCyr-Medium";
+  src: url(./assets/fonts/AvenirNextCyr-Medium.woff) format("woff");
+}
 #app {
   height: 90px;
 }
@@ -49,7 +57,7 @@ export default {
   max-width: 1170px;
   padding-top: 26px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 1fr;
   margin: 0 auto;
   @include tablet {
@@ -60,7 +68,7 @@ export default {
   }
   @include mobile {
     grid-template-columns: 1fr ;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(4, 1fr);
   }
 
 }

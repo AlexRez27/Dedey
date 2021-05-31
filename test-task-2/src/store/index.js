@@ -24,8 +24,7 @@ export default new Vuex.Store({
     }
   },
   state: {
-    data: [],
-    array: []
+    data: []
   },
   modules: {
   },

@@ -85,6 +85,7 @@ export default {
       outline: none;
       font-size: 16px;
       color: $mainColor;
+      font-family: 'AvenirNextCyr-Medium',sans-serif;
       @include tablet{
         width: 42px;
         height: 42px;

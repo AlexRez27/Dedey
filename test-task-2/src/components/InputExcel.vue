@@ -2,8 +2,11 @@
   <div
     class="container"
     id="file-drag-drop"
+    :class="{ invalid: !valid }"
   >
-    <form ref="fileform">
+    <form
+      ref="fileform"
+    >
       <label
         class="input"
         :for="id"
@@ -46,7 +49,7 @@ export default {
       file: {},
       size: 10,
       extensions: ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-      valid: false,
+      valid: true,
       text: '',
       rawData: [],
       resultArray: []
@@ -57,6 +60,7 @@ export default {
     ...mapActions(['getData']),
     ...mapMutations(['showAr']),
     fileValidations () {
+      this.valid = false
       let validSize = false
       let validExt = false
       if (!this.extensions.includes(this.file.type)) {
@@ -128,7 +132,7 @@ export default {
       if (this.file && this.valid) {
         this.readXlsFile()
       }
-    }.bind(this))
+    }.bind(this)) // Связка локального компонента с функцией которая обрабатывает Drop
   }
 }
 </script>
@@ -140,6 +144,7 @@ export default {
     background-color: #E0FFFF;
     height: 100px;
     margin: 0 auto;
+    margin-bottom: 20px;
   }
   form{
     display: flex;
@@ -149,20 +154,22 @@ export default {
     height: 100%;
     margin: auto;
     border: 1px dashed;
-    background-color: #E0FFFF;
     margin-bottom: 10px;
   }
 .upload {
    opacity: 0;
    position: absolute;
    z-index: -1;
-}
-.input{
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  }
+  .input{
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .invalid{
+    background-color: #ADD6E5;
+  }
 </style>
